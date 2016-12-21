@@ -1,0 +1,27 @@
+- name: Install php-intl
+  apt: name=php-intl state=latest
+
+- name: Create phpdoc directory
+  file:
+    path: "/home/{{ user_name }}/phpdoc"
+    state: directory
+    mode: 0755
+
+- name: Copy phpDocumentor archive
+  copy: src=phpDocumentor.tgz dest=/home/{{ user_name }}/phpdoc/phpDocumentor.tgz
+  register: phpdoc_copied
+
+- name: Extract phpDocumentor source code
+  unarchive:
+    src: /home/{{ user_name }}/phpdoc/phpDocumentor.tgz
+    dest: /home/{{ user_name }}/phpdoc/
+    remote_src: yes
+  when: phpdoc_copied.changed == True
+
+- name: Create symlink for phpdoc
+  file:
+    src: "/home/{{ user_name }}/phpdoc/phpDocumentor-{{ phpdoc_version }}/bin/phpdoc"
+    dest: /usr/local/bin/phpdoc
+    owner: root
+    group: root
+    state: link

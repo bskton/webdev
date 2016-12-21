@@ -1,0 +1,27 @@
+---
+- name: Install letsencrypt
+  apt: name=letsencrypt state=latest
+  when: use_lets_encrypt
+
+- name: Create direcotry .well-known
+  file: path={{ site_root }}/.well-known state=directory owner={{ user_name }} group={{ user_name }} mode=0755
+  when: use_lets_encrypt
+
+- name: Obtain cert
+  command: letsencrypt certonly --webroot -n --agree-tos --email {{ admin_email }} -w {{ site_root }} -d {{ server_name }} -d {{ www_server_name }} creates={{ ssl_certificate }}
+  when: use_lets_encrypt
+
+- name: Add certificate renewing morning job to crontab
+  cron: name="Morning renewing certificate" minute="19" hour="5" job="letsencrypt renew --agree-tos"
+  when: use_lets_encrypt
+
+- name: Add certificate renewing evening job to crontab
+  cron: name="Evening renewing certificate" minute="35" hour="17" job="letsencrypt renew --agree-tos"
+  when: use_lets_encrypt
+
+- name: Create a strong Diffie-Hellman group
+  command: openssl dhparam -out {{ dhparam_pem }} 2048 creates={{ dhparam_pem }}
+
+- name: Create self-signed SSL certificate
+  command: openssl req -x509 -nodes -days 365 -newkey rsa:2048 -subj "/C=RU/ST=Primorsy kray/L=Vladivostok/O=Appreactor/CN={{ www_server_name }}" -keyout {{ ssl_certificate_key }} -out {{ ssl_certificate }} creates={{ ssl_certificate }}
+  when: not use_lets_encrypt

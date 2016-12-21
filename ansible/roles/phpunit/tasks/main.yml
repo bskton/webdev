@@ -1,0 +1,8 @@
+- name: Create symlink for phpunit
+  file:
+    src: "{{ project_root }}/vendor/phpunit/phpunit/phpunit"
+    dest: /usr/local/bin/phpunit
+    owner: root
+    group: root
+    state: link
+    force: yes

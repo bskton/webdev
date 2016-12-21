@@ -1,0 +1,10 @@
+- name: Install php-xdebug
+  apt: name=php-xdebug state=latest
+
+- name: Copy xdebug configuration file
+  template:
+    src: xdebug.ini
+    dest: /etc/php/7.0/mods-available/xdebug.ini
+    owner: root
+    group: root
+    mode: 0644

@@ -1,0 +1,26 @@
+---
+- name: Install nginx
+  apt: name=nginx state=latest
+
+- name: Copy nginx configuration for host
+  template:
+    src: site.conf
+    dest: "/etc/nginx/sites-available/{{ server_name }}.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx
+
+- name: Copy ssl-params nginx configuration snippet
+  template:
+    src: ssl-params.conf
+    dest: /etc/nginx/snippets/ssl-params.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx
+
+- name: Create symlink for nginx configuration
+  file: src=/etc/nginx/sites-available/{{ server_name }}.conf
+        dest=/etc/nginx/sites-enabled/default owner=root group=root state=link
+  notify: restart nginx

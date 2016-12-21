@@ -1,0 +1,5 @@
+- name: restart redis
+  command: systemctl restart redis
+
+- name: restart php-fpm
+  service: name=php7.0-fpm state=restarted

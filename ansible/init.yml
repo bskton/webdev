@@ -1,0 +1,14 @@
+# Плэйбук для первоначальной настройки сервера.
+# Создает пользователя с административными правами и
+# ключи доступа для него.
+---
+- hosts: lekved
+  remote_user: root
+  tasks:
+    - include: includes/tasks/sudo-user.yml
+    - include: includes/tasks/keys.yml
+    - include: includes/tasks/authorized-keys.yml
+    - include: includes/tasks/iptables.yml
+    - include: includes/tasks/ssh.yml
+  handlers:
+    - include: includes/handlers/ssh.yml

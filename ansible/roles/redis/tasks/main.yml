@@ -1,0 +1,123 @@
+- name: Install build-essential
+  apt: name=build-essential state=latest
+
+- name: Install tcl
+  apt: name=tcl state=latest
+
+- name: Copy redis source code
+  copy: src=redis.tar.gz dest=/tmp/
+  register: redis_source_copied
+
+- name: Extract redis source code
+  unarchive: 
+    src: /tmp/redis.tar.gz
+    dest: /tmp
+    remote_src: yes
+  when: redis_source_copied.changed == True
+
+- name: Compile redis
+  command: make
+  args:
+    chdir: /tmp/redis-stable
+  when: redis_source_copied.changed == True
+
+- name: Install redis
+  command: make install
+  args:
+    chdir: /tmp/redis-stable
+  notify: restart redis
+  when: redis_source_copied.changed == True
+
+- name: Create redis config directory
+  file:
+    path: /etc/redis
+    state: directory
+    owner: root
+    group: root
+    mode: 0655
+
+- name: Copy redis config
+  copy:
+    src: redis.conf
+    dest: /etc/redis/redis.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart redis
+
+- name: Copy redis systemd unit file
+  copy:
+    src: redis.service
+    dest: /etc/systemd/system/redis.service
+
+- name: Add redis user
+  user:
+    name: redis
+    shell: /bin/false
+    system: yes
+    createhome: no
+
+- name: Create redis working directory
+  file:
+    path: /var/lib/redis
+    state: directory
+    owner: redis
+    group: redis
+    mode: 0770
+
+- name: Enable redis to start at boot
+  command: systemctl enable redis
+  when: redis_source_copied.changed == True
+
+- name: Copy phpredis source code
+  copy: src=phpredis-3.0.0.zip dest=/tmp/
+  register: phpredis_source_copied
+
+- name: Install unzip
+  apt: name=unzip state=latest
+
+- name: Extract phpredis source code
+  unarchive: 
+    src: /tmp/phpredis-3.0.0.zip
+    dest: /tmp
+    remote_src: yes
+  when: phpredis_source_copied.changed == True
+
+- name: Install php7.0-dev
+  apt: name=php7.0-dev state=latest
+
+- name: Run phpize
+  command: phpize
+  args:
+    chdir: /tmp/phpredis-3.0.0
+  when: phpredis_source_copied.changed == True
+
+- name: Run configure
+  command: ./configure
+  args:
+    chdir: /tmp/phpredis-3.0.0
+  when: phpredis_source_copied.changed == True
+
+- name: Compile phpredis
+  command: make
+  args:
+    chdir: /tmp/phpredis-3.0.0
+  when: phpredis_source_copied.changed == True
+
+- name: Install phpredis
+  command: make install
+  args:
+    chdir: /tmp/phpredis-3.0.0
+  when: phpredis_source_copied.changed == True
+
+- name: Copy phpredis config for php
+  copy: src=phpredis.ini dest=/etc/php/7.0/mods-available/
+  notify: restart php-fpm
+
+- name: Add phpredis to php-fpm
+  file:
+    src: /etc/php/7.0/mods-available/phpredis.ini
+    dest: /etc/php/7.0/fpm/conf.d/30-phpredis.ini
+    owner: root
+    group: root
+    state: link

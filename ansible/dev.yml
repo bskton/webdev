@@ -1,0 +1,23 @@
+# Плэйбук для первоначальной настройки сервера.
+# Создает создает пользователя с административными правами и
+# ключи доступа для него.
+
+---
+- hosts: lekved
+  remote_user: "{{ admin_user }}"
+  become: yes
+  become_user: root
+  
+  roles:
+    - common
+    - iptables
+    - ssh
+    - user
+    - ssl
+    - nginx
+    - php
+    - composer
+    - redis
+    - phpunit
+    - xdebug
+    - phpdoc

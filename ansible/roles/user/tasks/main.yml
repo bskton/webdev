@@ -1,0 +1,36 @@
+# Пользователь для проекта
+# В домашней директории этого пользователя будет находится код проекта
+# Владельцем файла проекта будет этот пользователь
+# Пользователь, из под которого работает php может только читать файлы проекта,
+# за исключением некоторых директорий.
+- name: Add user for project
+  user: name={{ user_name }} shell=/bin/bash
+
+# Создать директорию для ключей
+- name: Create keys directory
+  local_action: file path=keys state=directory mode=0755
+  become: no
+
+# Создать ключи для пользователя
+- name: Create keys for {{ user_name }}
+  local_action: command ssh-keygen -t rsa -f keys/{{ user_name }} -N "" creates=keys/{{ user_name }}
+  become: no
+
+# Создать директорию .ssh в домшней директории {{ user_name }}
+- name: Create direcotry .ssh for {{ user_name }}
+  file:
+    path: "/home/{{ user_name }}/.ssh"
+    state: directory
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0700
+
+# Добавить публичный ключ в authorized_keys для {{ user_name }}
+- name: Create authorized_keys for {{ user_name }}
+  copy:
+    src: "keys/{{ user_name }}.pub"
+    dest: "/home/{{ user_name }}/.ssh/authorized_keys"
+    force: yes
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0600
