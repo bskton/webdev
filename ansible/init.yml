@@ -2,7 +2,7 @@
 # Создает пользователя с административными правами и
 # ключи доступа для него.
 ---
-- hosts: lekved
+- hosts: devbox
   remote_user: root
   tasks:
     - include: includes/tasks/sudo-user.yml

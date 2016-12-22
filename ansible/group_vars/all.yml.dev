@@ -1,17 +1,17 @@
 # Имя пользователя с административными правами
-admin_user: kipper
+admin_user: ubuntu
 
 # Имя пользователя без административных прав
-user_name: lekved
+user_name: devbox
 
 # Адрес сайта
-server_name: lekved.local
+server_name: devbox.local
 
 # Адрес сайта с www
 www_server_name: www.{{ server_name }}
 
 # Директория проекта
-project_root: /home/{{ user_name }}/www/{{ server_name }}
+project_root: /var/www/devbox
 
 # Директория сайта
 site_root: "{{ project_root }}/public"

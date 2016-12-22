@@ -3,7 +3,7 @@
 # ключи доступа для него.
 
 ---
-- hosts: lekved
+- hosts: devbox
   remote_user: "{{ admin_user }}"
   become: yes
   become_user: root
