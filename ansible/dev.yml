@@ -9,7 +9,6 @@
   become_user: root
   
   roles:
-    - common
     - iptables
     - ssh
     - user

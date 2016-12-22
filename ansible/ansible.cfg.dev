@@ -1,7 +1,6 @@
 [defaults]
 # Приватный ключ, с которым Ansible будет подключаться к удаленной системе
 private_key_file = ../vagrant/.vagrant/machines/default/virtualbox/private_key
-#private_key_file = keys/kipper
 
 # При отладки плэйбука часто приходится разворачивать виртуальную машину заново
 # на том же IP. Чтобы при подключении по ssh игнорировать предупрежедния, 
@@ -11,3 +10,6 @@ host_key_checking = False
 # Файл, в котором по умолчанию храниться список машин, управляемых с помощью
 # Ansible
 inventory = inventory.dev
+
+[ssh_connection]
+ssh_args = -o IdentitiesOnly=yes
