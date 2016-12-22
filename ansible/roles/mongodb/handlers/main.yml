@@ -1,0 +1,5 @@
+- name: enable mongodb
+  command: systemctl enable mongodb
+
+- name: restart mongodb
+  command: systemctl restart mongodb

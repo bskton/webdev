@@ -1,0 +1,32 @@
+- name: Import they key for the official MongoDB repository
+  apt_key:
+    id: EA312927
+    keyserver: "hkp://keyserver.ubuntu.com:80"
+    state: present
+
+- name: Create a list file for MongoDB
+  copy:
+    src: mongodb-org-3.2.list
+    dest: /etc/apt/sources.list.d/mongodb-org-3.2.list
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Install the MongoDB package
+  apt:
+    name: mongodb-org
+    state: latest
+    update_cache: yes
+  notify:
+    - restart mongodb
+
+- name: Create a unit file describing the service
+  copy:
+    src: mongodb.service
+    dest: /etc/systemd/system/mongodb.service
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - enable mongodb
+    - restart mongodb
