@@ -1,0 +1,27 @@
+# Имя пользователя с административными правами
+admin_user: vagrant
+
+# Адрес сайта
+server_name: webdev.local
+
+# Адрес сайта с www
+www_server_name: www.{{ server_name }}
+
+# Директория проекта
+project_root: /var/www
+
+# Директория сайта
+site_root: "{{ project_root }}/public"
+
+# Путь к самоподписанному сертификату
+ssl_certificate: /etc/ssl/certs/nginx-selfsigned.crt
+
+# Приватный ключ для сертификата
+# Путь к кючу, который был сгенерирован, при создании самоподписанного сертификата
+ssl_certificate_key: /etc/ssl/private/nginx-selfsigned.key
+
+# Файл сильной ДХ группы
+dhparam_pem: /etc/ssl/certs/dhparam.pem
+
+# Версия phpDocumentor
+phpdoc_version: 2.9.0

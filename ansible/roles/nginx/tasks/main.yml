@@ -1,6 +1,7 @@
 ---
 - name: Install nginx
   apt: name=nginx state=latest
+  notify: restart nginx
 
 - name: Copy nginx configuration for host
   template:

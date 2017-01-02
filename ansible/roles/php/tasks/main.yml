@@ -1,7 +1,7 @@
 ---
 - name: Install php-fpm
   apt: name=php-fpm state=latest
-  notify: restart nginx
+  notify: restart php-fpm
 
 - name: Copy php-fpm configuration for host
   copy: src=php.ini dest=/etc/php/7.0/fpm/ owner=root group=root mode=0644
@@ -9,3 +9,4 @@
 
 - name: Install php-mbstring
   apt: name=php-mbstring state=latest
+  notify: restart php-fpm

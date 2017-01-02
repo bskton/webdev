@@ -3,21 +3,14 @@
 # ключи доступа для него.
 
 ---
-- hosts: devbox
+- hosts: webdev
   remote_user: "{{ admin_user }}"
   become: yes
   become_user: root
   
   roles:
-    - iptables
     - ssh
-    - user
+    - iptables
+    - php
     - ssl
     - nginx
-    - php
-    - composer
-    - redis
-    - phpunit
-    - xdebug
-    - phpdoc
-    - mongodb

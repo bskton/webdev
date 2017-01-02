@@ -1,8 +1,5 @@
 .idea/
-ansible/group_vars/all.yml
-ansible/keys/
-ansible/ansible.cfg
 ansible/*.retry
+ansible/*.dev.yml
 vagrant/.vagrant/
 vagrant/*.log
-*.dev.yml

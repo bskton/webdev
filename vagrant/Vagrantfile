@@ -2,12 +2,12 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "ubuntu/xenial64"
+  config.vm.box = "bskton/web"
 
   config.vm.network "private_network", ip: "192.168.34.10"
 
-  config.vm.synced_folder "../www/", "/var/www/devbox",
-        owner: "ubuntu",
+  config.vm.synced_folder "../www/", "/var/www",
+        owner: "vagrant",
         group: "www-data",
         mount_options: ["dmode=775,fmode=764"]
 
