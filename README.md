@@ -9,12 +9,6 @@
 На виртуальную машину устанавливаются
  * Nginx
  * Php
- * Composer
- * Redis
- * PHPUnit
- * XDebug
- * phpDocumentor
- * MongoDB
 
 Исходный код веб-проектов должен быть размещен в директории www.
 
@@ -35,34 +29,18 @@
 
 Склонировать репозиторий на свой комьютер
 ```bash
-~$ git clone git@github.com:bskton/webdev.git
-```
-
-Перейти в директорию webdev
-```bash
-~$ cd webdev
-```
-
-Создать файл с переменными для Ansible
-```bash
-~/webdev$ cp ansible/group_vars/all.yml.dev ansible/group_vars/all.yml
-```
-
-Создать конфигурационный файл для Ansible
-```bash
-~/webdev$ cp ansible/ansible.cfg.dev ansible/ansible.cfg
+~$ git clone https://github.com/bskton/webdev.git
 ```
 
 Перейти в директорию vagrant
 ```bash
-~/webdev$ cd vagrant
+~$ cd webdev/vagrant
 ```
 
 Запустить виртуальную машину
 ```bash
 ~/webdev/vagrant$ vagrant up
 ```
-будет создана виртуальная машина.
 
 Перейти в диреторию ansible
 ```bash
@@ -73,6 +51,5 @@
 ```bash
 ~/webdev/ansible$ ansible-playbook dev.yml
 ```
-будут установлены и настроены все необходимые пакеты. Это займет некоторое время.
 
 Отрыть в браузере https://192.168.34.10/, должно появится сообщение `This is webdev.`

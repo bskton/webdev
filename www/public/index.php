@@ -1,2 +1,2 @@
 <?php
-echo 'This is Devbox.';
+echo 'This is webdev.';
