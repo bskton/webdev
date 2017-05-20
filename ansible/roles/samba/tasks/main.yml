@@ -1,0 +1,23 @@
+- name: Create www directory
+  file:
+    path: "{{ site_root }}"
+    state: directory
+    owner: "{{ admin_user }}"
+    group: "{{ admin_user }}"
+    mode: 0755
+
+# Необходимо для того, чтобы работал livereload
+- name: Install samba
+  apt: name=samba state=latest
+
+- name: Set Samba user password
+  shell: (echo {{ admin_user }}; echo {{ admin_user }}) | smbpasswd -a {{ admin_user }}
+
+- name: Copy Samba configuration
+  template:
+    src: smb.conf
+    dest: /etc/samba/smb.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart samba

@@ -1,7 +1,0 @@
----
-- include: includes/tasks/sudo-user.yml
-
-- include: includes/tasks/keys.yml
-  become: no
-
-- include: includes/tasks/authorized-keys.yml

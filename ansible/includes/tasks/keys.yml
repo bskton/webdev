@@ -1,6 +1,0 @@
-- name: Create keys directory
-  local_action: file path=keys state=directory mode=0750
-
-- name: Create keys for {{ admin_user }}
-  delegate_to: localhost
-  command: ssh-keygen -t rsa -f keys/{{ admin_user }} -N "" creates=keys/{{ admin_user }}
