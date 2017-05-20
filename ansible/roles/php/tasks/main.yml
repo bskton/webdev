@@ -10,3 +10,11 @@
 - name: Install php-mbstring
   apt: name=php-mbstring state=latest
   notify: restart php-fpm
+
+- name: Install php-zip
+  apt: name=php-zip state=latest
+  notify: restart php-fpm
+
+- name: Install php-xml
+  apt: name=php-xml state=latest
+  notify: restart php-fpm
