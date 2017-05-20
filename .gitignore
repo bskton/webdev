@@ -1,5 +1,4 @@
-/www/*
-!/www/.gitkeep
+www/
 .idea/
 ansible/*.retry
 ansible/*.dev.yml

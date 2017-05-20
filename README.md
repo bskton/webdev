@@ -37,9 +37,24 @@
 ~/webdev/ansible$ ansible-playbook dev.yml
 ```
 
-Отрыть в браузере http://localhost:8080, должно появится сообщение `This is webdev.`
+Перейти в директорию проекта
+```bash
+~$ cd ../
+```
 
-Для того чтобы примонтировать директорию с исходным кодом к хостовому компьютеру, надо выполнить в директории 
+Создать директорию www
+```bash
+~/webdev$ mkdir www
+```
+
+Примонтировать директорию с исходным кодом к хостовому компьютеру
 ```bash
 ~/webdev$ sudo mount -t cifs -o uid=ilya,gid=ilya,password=vagrant,username=vagrant,iocharset=utf8,sec=ntlm //192.168.34.10/www ./www
 ```
+
+Добавить в директорию www файл index.php
+```bash
+~/webdev$ echo "This is webdev." >> www/index.php
+```
+
+Отрыть в браузере http://localhost:8080, должно появится сообщение `This is webdev.`
